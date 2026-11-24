@@ -77,6 +77,7 @@ add_llvm_target(WebAssemblyCodeGen
   WebAssemblyTargetObjectFile.cpp
   WebAssemblyTargetTransformInfo.cpp
   WebAssemblyUtilities.cpp
+  WebAssemblyZeroLocalSets.cpp
 
   DEPENDS
   intrinsics_gen

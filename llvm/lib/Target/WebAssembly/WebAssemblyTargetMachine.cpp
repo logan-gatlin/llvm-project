@@ -105,6 +105,7 @@ LLVMInitializeWebAssemblyTarget() {
   initializeWebAssemblyCFGStackifyLegacyPass(PR);
   initializeWebAssemblyExplicitLocalsLegacyPass(PR);
   initializeWebAssemblyLowerBrUnlessLegacyPass(PR);
+  initializeWebAssemblyZeroLocalSetsPass(PR);
   initializeWebAssemblyRegNumberingLegacyPass(PR);
   initializeWebAssemblyDebugFixupLegacyPass(PR);
   initializeWebAssemblyPeepholeLegacyPass(PR);
@@ -406,6 +407,9 @@ void WebAssemblyPassConfig::addPreEmitPass() {
   // Insert explicit local.get and local.set operators.
   if (!WasmDisableExplicitLocals)
     addPass(createWebAssemblyExplicitLocalsLegacyPass());
+
+  if (!WasmDisableExplicitLocals && getOptLevel() != CodeGenOptLevel::None)
+    addPass(createWebAssemblyZeroLocalSets());
 
   // Lower br_unless into br_if.
   addPass(createWebAssemblyLowerBrUnlessLegacyPass());
