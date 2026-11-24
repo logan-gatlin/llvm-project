@@ -285,6 +285,9 @@ public:
 };
 
 FunctionPass *createWebAssemblyLowerBrUnlessLegacyPass();
+FunctionPass *createWebAssemblyConstHoist();
+unsigned wasmConstSize(const MachineInstr &MI);
+bool wasmConstWorthALocal(unsigned Size, unsigned Uses);
 
 class WebAssemblyRegNumberingPass
     : public RequiredPassInfoMixin<WebAssemblyRegNumberingPass> {
@@ -339,6 +342,7 @@ void initializeWebAssemblyFixFunctionBitcastsLegacyPass(PassRegistry &);
 void initializeWebAssemblyFixIrreducibleControlFlowLegacyPass(PassRegistry &);
 void initializeWebAssemblyLateEHPrepareLegacyPass(PassRegistry &);
 void initializeWebAssemblyLowerBrUnlessLegacyPass(PassRegistry &);
+void initializeWebAssemblyConstHoistPass(PassRegistry &);
 void initializeWebAssemblyLowerEmscriptenEHSjLjLegacyPass(PassRegistry &);
 void initializeWebAssemblyMCLowerPreLegacyPass(PassRegistry &);
 void initializeWebAssemblyMemIntrinsicResultsLegacyPass(PassRegistry &);

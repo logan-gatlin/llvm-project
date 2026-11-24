@@ -137,6 +137,7 @@
 ; O2-NEXT:      WebAssembly Fix Irreducible Control Flow
 ; O2-NEXT:      WebAssembly Late Prepare Exception
 ; O2-NEXT:      WebAssembly Replace Physical Registers
+; O2-NEXT:      WebAssembly Const Hoist
 ; O2-NEXT:      MachineDominator Tree Construction
 ; O2-NEXT:      Slot index numbering
 ; O2-NEXT:      Live Interval Analysis

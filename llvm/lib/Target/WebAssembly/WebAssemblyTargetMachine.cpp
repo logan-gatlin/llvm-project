@@ -105,6 +105,7 @@ LLVMInitializeWebAssemblyTarget() {
   initializeWebAssemblyCFGStackifyLegacyPass(PR);
   initializeWebAssemblyExplicitLocalsLegacyPass(PR);
   initializeWebAssemblyLowerBrUnlessLegacyPass(PR);
+  initializeWebAssemblyConstHoistPass(PR);
   initializeWebAssemblyRegNumberingLegacyPass(PR);
   initializeWebAssemblyDebugFixupLegacyPass(PR);
   initializeWebAssemblyPeepholeLegacyPass(PR);
@@ -375,6 +376,7 @@ void WebAssemblyPassConfig::addPreEmitPass() {
 
   // Preparations and optimizations related to register stackification.
   if (getOptLevel() != CodeGenOptLevel::None) {
+    addPass(createWebAssemblyConstHoist());
     // Depend on LiveIntervals and perform some optimizations on it.
     addPass(createWebAssemblyOptimizeLiveIntervalsLegacyPass());
 

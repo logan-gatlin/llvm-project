@@ -264,10 +264,23 @@ static void query(const MachineInstr &MI, bool &Read, bool &Write,
   }
 }
 
+extern cl::opt<bool> WasmSizeConsts;
+
 // Test whether Def is safe and profitable to rematerialize.
 static bool shouldRematerialize(const MachineInstr &Def,
                                 const WebAssemblyInstrInfo *TII) {
-  return Def.isAsCheapAsAMove() && TII->isTriviallyReMaterializable(Def);
+  if (!(Def.isAsCheapAsAMove() && TII->isTriviallyReMaterializable(Def)))
+    return false;
+  // At minsize, a constant that is expensive to encode and used often is
+  // cheaper in a local than cloned at every use.
+  if (WasmSizeConsts && Def.getMF()->getFunction().hasOptSize()) {
+    const MachineRegisterInfo &MRI = Def.getMF()->getRegInfo();
+    Register R = Def.getOperand(0).getReg();
+    unsigned Uses = std::distance(MRI.use_nodbg_begin(R), MRI.use_nodbg_end());
+    if (wasmConstWorthALocal(wasmConstSize(Def), Uses))
+      return false;
+  }
+  return true;
 }
 
 // Identify the definition for this register at this point. This is a
