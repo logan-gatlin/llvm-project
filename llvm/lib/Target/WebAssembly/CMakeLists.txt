@@ -40,6 +40,7 @@ add_llvm_target(WebAssemblyCodeGen
   WebAssemblyCodeGenPassBuilder.cpp
   WebAssemblyDebugFixup.cpp
   WebAssemblyDebugValueManager.cpp
+  WebAssemblyFrameAddrCSE.cpp
   WebAssemblyLateEHPrepare.cpp
   WebAssemblyExceptionInfo.cpp
   WebAssemblyExplicitLocals.cpp

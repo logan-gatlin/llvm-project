@@ -105,6 +105,7 @@ LLVMInitializeWebAssemblyTarget() {
   initializeWebAssemblyCFGStackifyLegacyPass(PR);
   initializeWebAssemblyExplicitLocalsLegacyPass(PR);
   initializeWebAssemblyLowerBrUnlessLegacyPass(PR);
+  initializeWebAssemblyFrameAddrCSEPass(PR);
   initializeWebAssemblyRegNumberingLegacyPass(PR);
   initializeWebAssemblyDebugFixupLegacyPass(PR);
   initializeWebAssemblyPeepholeLegacyPass(PR);
@@ -371,6 +372,8 @@ void WebAssemblyPassConfig::addPreEmitPass() {
   // Now that we have a prologue and epilogue and all frame indices are
   // rewritten, eliminate SP and FP. This allows them to be stackified,
   // colored, and numbered with the rest of the registers.
+  if (getOptLevel() != CodeGenOptLevel::None)
+    addPass(createWebAssemblyFrameAddrCSE());
   addPass(createWebAssemblyReplacePhysRegsLegacyPass());
 
   // Preparations and optimizations related to register stackification.
