@@ -153,6 +153,7 @@
 ; O2-NEXT:      WebAssembly CFG Stackify
 ; O2-NEXT:      WebAssembly Explicit Locals
 ; O2-NEXT:      WebAssembly Lower br_unless
+; O2-NEXT:      WebAssembly If/Else
 ; O2-NEXT:      WebAssembly late peephole optimizer
 ; O2-NEXT:      WebAssembly Register Numbering
 ; O2-NEXT:      WebAssembly Debug Fixup

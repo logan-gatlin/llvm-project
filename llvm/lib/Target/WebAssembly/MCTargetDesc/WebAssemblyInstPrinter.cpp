@@ -147,7 +147,13 @@ void WebAssemblyInstPrinter::printInst(const MCInst *MI, uint64_t Address,
 
     case WebAssembly::BLOCK:
     case WebAssembly::BLOCK_S:
+    case WebAssembly::IF:
+    case WebAssembly::IF_S:
       ControlFlowStack.push_back(std::make_pair(ControlFlowCounter++, false));
+      return;
+
+    case WebAssembly::ELSE:
+    case WebAssembly::ELSE_S:
       return;
 
     case WebAssembly::TRY:
@@ -191,6 +197,8 @@ void WebAssemblyInstPrinter::printInst(const MCInst *MI, uint64_t Address,
 
     case WebAssembly::END_BLOCK:
     case WebAssembly::END_BLOCK_S:
+    case WebAssembly::END_IF:
+    case WebAssembly::END_IF_S:
     case WebAssembly::END_TRY_TABLE:
     case WebAssembly::END_TRY_TABLE_S:
       if (ControlFlowStack.empty()) {
