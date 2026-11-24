@@ -152,7 +152,6 @@
 ; O2-NEXT:      WebAssembly CFG Sort
 ; O2-NEXT:      WebAssembly CFG Stackify
 ; O2-NEXT:      WebAssembly Explicit Locals
-; O2-NEXT:      WebAssembly Zero Local Sets
 ; O2-NEXT:      WebAssembly Lower br_unless
 ; O2-NEXT:      WebAssembly late peephole optimizer
 ; O2-NEXT:      WebAssembly Register Numbering

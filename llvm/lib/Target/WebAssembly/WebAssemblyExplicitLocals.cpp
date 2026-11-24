@@ -21,6 +21,8 @@
 #include "WebAssemblyMachineFunctionInfo.h"
 #include "WebAssemblySubtarget.h"
 #include "WebAssemblyUtilities.h"
+#include "llvm/ADT/BitVector.h"
+#include "llvm/ADT/PostOrderIterator.h"
 #include "llvm/CodeGen/MachineBlockFrequencyInfo.h"
 #include "llvm/CodeGen/MachineFunctionAnalysisManager.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
@@ -30,6 +32,7 @@
 #include "llvm/IR/Analysis.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/raw_ostream.h"
+#include "llvm/Target/TargetMachine.h"
 using namespace llvm;
 
 #define DEBUG_TYPE "wasm-explicit-locals"
@@ -228,6 +231,126 @@ static void removeFakeUses(MachineFunction &MF) {
         ToDelete.push_back(&MI);
   for (auto *MI : ToDelete)
     MI->eraseFromParent();
+}
+
+/// If MI writes a local, set Local to its index and ZeroDef to the CONST
+/// instruction defining the value written if that value is a (bitwise) zero,
+/// else nullptr.
+static bool writesLocal(const MachineInstr &MI, const MachineRegisterInfo &MRI,
+                        unsigned &Local, MachineInstr *&ZeroDef) {
+  unsigned Opc = MI.getOpcode();
+  bool Tee = WebAssembly::isLocalTee(Opc);
+  if (!WebAssembly::isLocalSet(Opc) && !Tee)
+    return false;
+  unsigned LocalOp = Tee ? 1 : 0;
+  Local = MI.getOperand(LocalOp).getImm();
+  ZeroDef = nullptr;
+  const MachineOperand &Src = MI.getOperand(LocalOp + 1);
+  if (!Src.isReg() || !Src.getReg().isVirtual())
+    return true;
+  MachineInstr *D = MRI.getUniqueVRegDef(Src.getReg());
+  if (!D)
+    return true;
+  switch (D->getOpcode()) {
+  case WebAssembly::CONST_I32:
+  case WebAssembly::CONST_I64:
+    if (D->getOperand(1).isImm() && D->getOperand(1).getImm() == 0)
+      ZeroDef = D;
+    break;
+  case WebAssembly::CONST_F32:
+  case WebAssembly::CONST_F64:
+    if (D->getOperand(1).isFPImm() &&
+        D->getOperand(1).getFPImm()->getValueAPF().isPosZero())
+      ZeroDef = D;
+    break;
+  }
+  return true;
+}
+
+/// Wasm zero-initializes a function's non-parameter locals, so a write of zero
+/// to a local that still holds zero on every path is a no-op. PHI elimination
+/// emits such writes for incoming zero constants, e.g. a loop counter that
+/// starts at 0. Remove them with a forward dataflow over local indices.
+static bool removeZeroLocalSets(MachineFunction &MF) {
+  const auto &MFI = *MF.getInfo<WebAssemblyFunctionInfo>();
+  MachineRegisterInfo &MRI = MF.getRegInfo();
+  unsigned NumParams = MFI.getParams().size();
+  unsigned NumLocals = NumParams + MFI.getLocals().size();
+  if (NumLocals == NumParams)
+    return false;
+
+  // Out[MBB]: locals known to hold zero on exit from MBB. Start optimistic and
+  // iterate to the greatest fixed point.
+  DenseMap<const MachineBasicBlock *, BitVector> In, Out;
+  BitVector EntryIn(NumLocals, true);
+  EntryIn.reset(0, NumParams);
+  ReversePostOrderTraversal<MachineFunction *> RPOT(&MF);
+  for (MachineBasicBlock *MBB : RPOT)
+    Out[MBB] = BitVector(NumLocals, true);
+  auto Transfer = [&](const MachineBasicBlock &MBB, BitVector Z) {
+    for (const MachineInstr &MI : MBB) {
+      unsigned L;
+      MachineInstr *ZeroDef;
+      if (writesLocal(MI, MRI, L, ZeroDef) && L < NumLocals) {
+        if (ZeroDef)
+          Z.set(L);
+        else
+          Z.reset(L);
+      }
+    }
+    return Z;
+  };
+  for (bool Iterate = true; Iterate;) {
+    Iterate = false;
+    for (MachineBasicBlock *MBB : RPOT) {
+      BitVector Z = MBB == &MF.front() ? EntryIn : BitVector(NumLocals, true);
+      if (MBB != &MF.front() && MBB->pred_empty())
+        Z.reset();
+      for (MachineBasicBlock *P : MBB->predecessors())
+        Z &= Out[P];
+      if (MBB->isEHPad())
+        Z.reset();
+      In[MBB] = Z;
+      BitVector O = Transfer(*MBB, Z);
+      if (O != Out[MBB]) {
+        Out[MBB] = O;
+        Iterate = true;
+      }
+    }
+  }
+
+  bool Changed = false;
+  for (MachineBasicBlock &MBB : MF) {
+    // Blocks not reached in RPOT are unreachable; assume nothing.
+    BitVector Z = In.count(&MBB) ? In[&MBB] : BitVector(NumLocals);
+    for (MachineInstr &MI : llvm::make_early_inc_range(MBB)) {
+      unsigned L;
+      MachineInstr *ZeroDef;
+      if (!writesLocal(MI, MRI, L, ZeroDef) || L >= NumLocals)
+        continue;
+      if (!ZeroDef) {
+        Z.reset(L);
+        continue;
+      }
+      // A local.tee also leaves the value on the stack; keep it.
+      if (!Z.test(L) || WebAssembly::isLocalTee(MI.getOpcode())) {
+        Z.set(L);
+        continue;
+      }
+      Register R = MI.getOperand(1).getReg();
+      MI.eraseFromParent();
+      if (MRI.use_nodbg_empty(R)) {
+        SmallVector<MachineInstr *, 2> DbgUsers;
+        for (MachineInstr &DbgMI : MRI.use_instructions(R))
+          DbgUsers.push_back(&DbgMI);
+        for (MachineInstr *DbgMI : DbgUsers)
+          DbgMI->setDebugValueUndef();
+        ZeroDef->eraseFromParent();
+      }
+      Changed = true;
+    }
+  }
+  return Changed;
 }
 
 static bool explicitLocals(MachineFunction &MF) {
@@ -499,6 +622,10 @@ static bool explicitLocals(MachineFunction &MF) {
                  typeForRegClass(MRI.getRegClass(Reg)));
     Changed = true;
   }
+
+  if (MF.getTarget().getOptLevel() != CodeGenOptLevel::None &&
+      !MF.getFunction().hasOptNone())
+    Changed |= removeZeroLocalSets(MF);
 
 #ifndef NDEBUG
   // Assert that all registers have been stackified at this point.

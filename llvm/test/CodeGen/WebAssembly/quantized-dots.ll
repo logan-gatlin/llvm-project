@@ -105,8 +105,6 @@ define hidden float @vec_dot_q2k_q8k(i32 noundef %arg, ptr noundef readonly %arg
 ; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    v128.const 0, 0, 0, 0
 ; CHECK-NEXT:    local.set 5
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 6
 ; CHECK-NEXT:  .LBB1_1: # %bb9
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    loop # label0:

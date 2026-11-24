@@ -106,12 +106,12 @@ define void @varname() {
   ret void
 }
 
+; The local holding %z starts as zero, so it is not written.
 ; CHECK-LABEL: r_constraint
-; CHECK:      i32.const $push[[S0:[0-9]+]]=, 0{{$}}
-; CHECK-NEXT: local.set [[L0:[0-9]+]], $pop[[S0]]{{$}}
-; CHECK-NEXT: i32.const $push[[S1:[0-9]+]]=, 37{{$}}
+; CHECK-NOT:  i32.const $push{{[0-9]+}}=, 0{{$}}
+; CHECK:      i32.const $push[[S1:[0-9]+]]=, 37{{$}}
 ; CHECK-NEXT: local.set [[L1:[0-9]+]], $pop[[S1]]{{$}}
-; CHECK:      foo [[L2:[0-9]+]], 1, [[L0]], [[L1]]{{$}}
+; CHECK:      foo [[L2:[0-9]+]], 1, {{[0-9]+}}, [[L1]]{{$}}
 ; CHECK:      local.get $push{{[0-9]+}}=, [[L2]]{{$}}
 define hidden i32 @r_constraint(i32 %a, i32 %y) {
 entry:

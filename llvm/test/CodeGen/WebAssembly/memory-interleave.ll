@@ -27,8 +27,6 @@ define hidden void @two_ints_same_op(ptr noalias nocapture noundef writeonly %0,
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -201,8 +199,6 @@ define hidden void @two_ints_vary_op(ptr noalias nocapture noundef writeonly %0,
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -374,8 +370,6 @@ define hidden void @three_ints(ptr noalias nocapture noundef writeonly %0, ptr n
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB2_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -475,8 +469,6 @@ define hidden void @three_shorts(ptr noalias nocapture noundef writeonly %0, ptr
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB3_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -576,8 +568,6 @@ define hidden void @four_shorts_same_op(ptr noalias nocapture noundef writeonly 
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -809,8 +799,6 @@ define hidden void @four_shorts_split_op(ptr noalias nocapture noundef writeonly
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -1042,8 +1030,6 @@ define hidden void @four_shorts_interleave_op(ptr noalias nocapture noundef writ
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -1275,8 +1261,6 @@ define hidden void @five_shorts(ptr noalias nocapture noundef writeonly %0, ptr 
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB7_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -1416,8 +1400,6 @@ define hidden void @two_bytes_same_op(ptr noalias nocapture noundef writeonly %0
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 16
@@ -1595,8 +1577,6 @@ define hidden void @two_bytes_vary_op(ptr noalias nocapture noundef writeonly %0
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 16
@@ -1771,8 +1751,6 @@ define hidden void @three_bytes_same_op(ptr noalias nocapture noundef writeonly 
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB10_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -1872,8 +1850,6 @@ define hidden void @three_bytes_interleave_op(ptr noalias nocapture noundef writ
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB11_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -1973,8 +1949,6 @@ define hidden void @four_bytes_same_op(ptr noalias nocapture noundef writeonly %
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -2206,8 +2180,6 @@ define hidden void @four_bytes_split_op(ptr noalias nocapture noundef writeonly 
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -2433,8 +2405,6 @@ define hidden void @four_bytes_interleave_op(ptr noalias nocapture noundef write
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -2666,8 +2636,6 @@ define hidden void @eight_bytes_same_op(ptr noalias nocapture noundef writeonly 
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB15_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -2867,8 +2835,6 @@ define hidden void @eight_bytes_split_op(ptr noalias nocapture noundef writeonly
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB16_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -3068,8 +3034,6 @@ define hidden void @eight_bytes_interleave_op(ptr noalias nocapture noundef writ
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB17_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 0
@@ -3269,8 +3233,6 @@ define hidden void @four_bytes_into_four_ints_same_op(ptr noalias nocapture noun
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -3594,8 +3556,6 @@ define hidden void @four_bytes_into_four_ints_vary_op(ptr noalias nocapture noun
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -3861,8 +3821,6 @@ define hidden void @scale_uv_row_down2(ptr nocapture noundef readonly %0, i32 no
 ; CHECK-NEXT:    i32.const 1
 ; CHECK-NEXT:    i32.lt_s
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 9
@@ -4013,8 +3971,6 @@ define hidden void @scale_uv_row_down2_box(ptr nocapture noundef readonly %0, i3
 ; CHECK-NEXT:    i32.const 1
 ; CHECK-NEXT:    i32.lt_s
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
@@ -4313,8 +4269,6 @@ define hidden void @scale_uv_row_down2_linear(ptr nocapture noundef readonly %0,
 ; CHECK-NEXT:    i32.const 1
 ; CHECK-NEXT:    i32.lt_s
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
@@ -4508,8 +4462,6 @@ define hidden void @scale_argb_row_down2_box(ptr noundef readonly captures(none)
 ; CHECK-NEXT:    i32.const 1
 ; CHECK-NEXT:    i32.lt_s
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
@@ -5040,8 +4992,6 @@ define hidden void @argb_to_uv_matrix_row(ptr noundef readonly captures(none) %a
 ; CHECK-NEXT:    i32.const 32
 ; CHECK-NEXT:    i32.add
 ; CHECK-NEXT:    local.set 7
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 8
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 4
@@ -5776,8 +5726,6 @@ define hidden void @two_floats_same_op(ptr noundef readonly captures(none) %a, p
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -5976,8 +5924,6 @@ define hidden void @two_floats_vary_op(ptr noundef readonly captures(none) %a, p
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -6176,8 +6122,6 @@ define hidden void @two_bytes_two_floats_same_op(ptr noundef readonly captures(n
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -6396,8 +6340,6 @@ define hidden void @two_bytes_two_floats_vary_op(ptr noundef readonly captures(n
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -6616,8 +6558,6 @@ define hidden void @two_floats_two_bytes_same_op(ptr noundef readonly captures(n
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -6832,8 +6772,6 @@ define hidden void @two_floats_two_bytes_vary_op(ptr noundef readonly captures(n
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -7048,8 +6986,6 @@ define hidden void @two_shorts_two_floats_same_op(ptr noundef readonly captures(
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -7264,8 +7200,6 @@ define hidden void @two_shorts_two_floats_vary_op(ptr noundef readonly captures(
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -7480,8 +7414,6 @@ define hidden void @two_floats_two_shorts_same_op(ptr noundef readonly captures(
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -7692,8 +7624,6 @@ define hidden void @two_floats_two_shorts_vary_op(ptr noundef readonly captures(
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -8087,8 +8017,6 @@ define hidden void @four_floats_vary_op(ptr noundef readonly captures(none) %a, 
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB36_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 2
@@ -8209,8 +8137,6 @@ define hidden void @four_bytes_four_floats_same_op(ptr noundef readonly captures
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -8528,8 +8454,6 @@ define hidden void @four_bytes_four_floats_vary_op(ptr noundef readonly captures
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -8847,8 +8771,6 @@ define hidden void @four_floats_four_bytes_same_op(ptr noundef readonly captures
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB39_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 2
@@ -8978,8 +8900,6 @@ define hidden void @four_floats_four_bytes_vary_op(ptr noundef readonly captures
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB40_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 2
@@ -9109,8 +9029,6 @@ define hidden void @four_shorts_four_floats_same_op(ptr noundef readonly capture
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -9424,8 +9342,6 @@ define hidden void @four_shorts_four_floats_vary_op(ptr noundef readonly capture
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 4
@@ -9739,8 +9655,6 @@ define hidden void @four_floats_four_shorts_same_op(ptr noundef readonly capture
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB43_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 2
@@ -9870,8 +9784,6 @@ define hidden void @four_floats_four_shorts_vary_op(ptr noundef readonly capture
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB44_2:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 2
@@ -10001,21 +9913,9 @@ define hidden void @mac_3d_i8(ptr dead_on_unwind noalias writable writeonly sret
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 5
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 6
 ; CHECK-NEXT:    br 1
 ; CHECK-NEXT:  .LBB45_2:
 ; CHECK-NEXT:    end_block
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 6
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 5
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:  .LBB45_3:
 ; CHECK-NEXT:    loop
 ; CHECK-NEXT:    local.get 2
@@ -10122,8 +10022,6 @@ define hidden void @mac_4d_i8(ptr dead_on_unwind noalias writable writeonly sret
 ; CHECK-LABEL: mac_4d_i8:
 ; CHECK:         .functype mac_4d_i8 (i32, i32, i32, i32) -> ()
 ; CHECK-NEXT:    .local i32, i32, i32, i32, i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128, i32
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    local.get 0
 ; CHECK-NEXT:    i32.const 0
 ; CHECK-NEXT:    i32.store 0:p2align=0
@@ -10131,16 +10029,6 @@ define hidden void @mac_4d_i8(ptr dead_on_unwind noalias writable writeonly sret
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 5
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 6
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 7
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 8
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
@@ -10470,8 +10358,6 @@ define hidden void @mac_2d_i64(ptr dead_on_unwind noalias writable sret(%struct.
 ; CHECK-NEXT:    local.get 0
 ; CHECK-NEXT:    i64.load 8
 ; CHECK-NEXT:    local.set 5
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 6
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
@@ -10686,8 +10572,6 @@ define hidden void @mac_4d_i64(ptr dead_on_unwind noalias writable sret(%struct.
 ; CHECK-NEXT:    local.get 0
 ; CHECK-NEXT:    i64.load 8
 ; CHECK-NEXT:    local.set 7
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 8
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3

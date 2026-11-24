@@ -10,8 +10,6 @@ define hidden { i32, i32, i32, i32 } @bb2053_inner_loop(ptr nocapture %base0, pt
 ; CHECK:         .functype bb2053_inner_loop (i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; CHECK-NEXT:    .local i32, i32, v128, v128, v128, v128, v128, i32, i32, i32, i32, i32, i32, v128, v128, v128, v128, v128
 ; CHECK-NEXT:  # %bb.0: # %entry
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 11
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
@@ -392,8 +390,6 @@ define hidden { i32, i32, i32, i32 } @bb2053_inner_loop(ptr nocapture %base0, pt
 ; MAX-BANDWIDTH:         .functype bb2053_inner_loop (i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; MAX-BANDWIDTH-NEXT:    .local i32, i32, v128, v128, v128, v128, v128, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128
 ; MAX-BANDWIDTH-NEXT:  # %bb.0: # %entry
-; MAX-BANDWIDTH-NEXT:    i32.const 0
-; MAX-BANDWIDTH-NEXT:    local.set 11
 ; MAX-BANDWIDTH-NEXT:    block
 ; MAX-BANDWIDTH-NEXT:    block
 ; MAX-BANDWIDTH-NEXT:    block
@@ -1082,8 +1078,6 @@ define hidden { i32, i32, i32, i32 } @bb2053_inner_loop(ptr nocapture %base0, pt
 ; RELAXED-MAX-BANDWIDTH:         .functype bb2053_inner_loop (i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; RELAXED-MAX-BANDWIDTH-NEXT:    .local i32, i32, v128, v128, v128, v128, v128, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128
 ; RELAXED-MAX-BANDWIDTH-NEXT:  # %bb.0: # %entry
-; RELAXED-MAX-BANDWIDTH-NEXT:    i32.const 0
-; RELAXED-MAX-BANDWIDTH-NEXT:    local.set 11
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
@@ -1780,8 +1774,6 @@ define hidden { i32, i32, i32, i32 } @bb41_inner_loop(ptr nocapture %lhs, ptr no
 ; CHECK:         .functype bb41_inner_loop (i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; CHECK-NEXT:    .local i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128, i32
 ; CHECK-NEXT:  # %bb.0: # %entry
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 8
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
@@ -2023,8 +2015,6 @@ define hidden { i32, i32, i32, i32 } @bb41_inner_loop(ptr nocapture %lhs, ptr no
 ; MAX-BANDWIDTH:         .functype bb41_inner_loop (i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; MAX-BANDWIDTH-NEXT:    .local i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, i32
 ; MAX-BANDWIDTH-NEXT:  # %bb.0: # %entry
-; MAX-BANDWIDTH-NEXT:    i32.const 0
-; MAX-BANDWIDTH-NEXT:    local.set 8
 ; MAX-BANDWIDTH-NEXT:    block
 ; MAX-BANDWIDTH-NEXT:    block
 ; MAX-BANDWIDTH-NEXT:    block
@@ -2290,8 +2280,6 @@ define hidden { i32, i32, i32, i32 } @bb41_inner_loop(ptr nocapture %lhs, ptr no
 ; RELAXED-MAX-BANDWIDTH:         .functype bb41_inner_loop (i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; RELAXED-MAX-BANDWIDTH-NEXT:    .local i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, i32
 ; RELAXED-MAX-BANDWIDTH-NEXT:  # %bb.0: # %entry
-; RELAXED-MAX-BANDWIDTH-NEXT:    i32.const 0
-; RELAXED-MAX-BANDWIDTH-NEXT:    local.set 8
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
@@ -2572,8 +2560,6 @@ define hidden { i32, i32, i32, i32 } @bb41_inner_loop_i16(ptr nocapture %lhs, pt
 ; CHECK:         .functype bb41_inner_loop_i16 (i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; CHECK-NEXT:    .local i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, i32
 ; CHECK-NEXT:  # %bb.0: # %entry
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 8
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
@@ -2815,8 +2801,6 @@ define hidden { i32, i32, i32, i32 } @bb41_inner_loop_i16(ptr nocapture %lhs, pt
 ; MAX-BANDWIDTH:         .functype bb41_inner_loop_i16 (i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; MAX-BANDWIDTH-NEXT:    .local i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, i32
 ; MAX-BANDWIDTH-NEXT:  # %bb.0: # %entry
-; MAX-BANDWIDTH-NEXT:    i32.const 0
-; MAX-BANDWIDTH-NEXT:    local.set 8
 ; MAX-BANDWIDTH-NEXT:    block
 ; MAX-BANDWIDTH-NEXT:    block
 ; MAX-BANDWIDTH-NEXT:    local.get 3
@@ -3082,8 +3066,6 @@ define hidden { i32, i32, i32, i32 } @bb41_inner_loop_i16(ptr nocapture %lhs, pt
 ; RELAXED-MAX-BANDWIDTH:         .functype bb41_inner_loop_i16 (i32, i32, i32, i32, i32, i32, i32, i32) -> ()
 ; RELAXED-MAX-BANDWIDTH-NEXT:    .local i32, i32, i32, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, v128, i32
 ; RELAXED-MAX-BANDWIDTH-NEXT:  # %bb.0: # %entry
-; RELAXED-MAX-BANDWIDTH-NEXT:    i32.const 0
-; RELAXED-MAX-BANDWIDTH-NEXT:    local.set 8
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
 ; RELAXED-MAX-BANDWIDTH-NEXT:    block
 ; RELAXED-MAX-BANDWIDTH-NEXT:    local.get 3

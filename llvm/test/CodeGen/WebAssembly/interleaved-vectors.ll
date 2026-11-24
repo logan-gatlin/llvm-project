@@ -14,8 +14,6 @@ define hidden void @i32_add(ptr noalias nofree noundef writeonly captures(none) 
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0 # 0: down to label0
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -198,8 +196,6 @@ define hidden void @i32_madd(ptr noalias nofree noundef writeonly captures(none)
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0 # 0: down to label4
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 5
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 4
 ; CHECK-NEXT:    i32.const 8
@@ -416,8 +412,6 @@ define hidden void @i32_i16_add(ptr noalias nofree noundef writeonly captures(no
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0 # 0: down to label8
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -608,8 +602,6 @@ define hidden void @i32_i8_madd(ptr noalias nofree noundef writeonly captures(no
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0 # 0: down to label12
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 5
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 4
 ; CHECK-NEXT:    i32.const 8
@@ -840,8 +832,6 @@ define hidden void @f32_add(ptr noalias nofree noundef writeonly captures(none) 
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0 # 0: down to label16
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 4
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 3
 ; CHECK-NEXT:    i32.const 8
@@ -1024,8 +1014,6 @@ define hidden void @f32_madd(ptr noalias nofree noundef writeonly captures(none)
 ; CHECK-NEXT:    i32.eqz
 ; CHECK-NEXT:    br_if 0 # 0: down to label20
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    i32.const 0
-; CHECK-NEXT:    local.set 5
 ; CHECK-NEXT:    block
 ; CHECK-NEXT:    local.get 4
 ; CHECK-NEXT:    i32.const 8

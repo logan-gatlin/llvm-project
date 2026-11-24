@@ -169,8 +169,6 @@ define <2 x i64> @trunc_sat_u_v2i64(<2 x double> %x) {
 ; CHECK-NEXT:    br 1 # 1: down to label4
 ; CHECK-NEXT:  .LBB7_2:
 ; CHECK-NEXT:    end_block # label5:
-; CHECK-NEXT:    i64.const 0
-; CHECK-NEXT:    local.set 2
 ; CHECK-NEXT:  .LBB7_3:
 ; CHECK-NEXT:    end_block # label4:
 ; CHECK-NEXT:    block
@@ -193,8 +191,6 @@ define <2 x i64> @trunc_sat_u_v2i64(<2 x double> %x) {
 ; CHECK-NEXT:    br 1 # 1: down to label6
 ; CHECK-NEXT:  .LBB7_5:
 ; CHECK-NEXT:    end_block # label7:
-; CHECK-NEXT:    i64.const 0
-; CHECK-NEXT:    local.set 3
 ; CHECK-NEXT:  .LBB7_6:
 ; CHECK-NEXT:    end_block # label6:
 ; CHECK-NEXT:    local.get 3
