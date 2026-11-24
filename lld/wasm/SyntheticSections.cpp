@@ -935,7 +935,7 @@ void NameSection::writeBody() {
 
     for (OutputSegment *s : segments) {
       if (!s->name.empty() && s->requiredInBinary()) {
-        writeUleb128(sub.os, s->index, "global index");
+        writeUleb128(sub.os, s->binaryIndex, "global index");
         writeStr(sub.os, s->name, "segment name");
       }
     }

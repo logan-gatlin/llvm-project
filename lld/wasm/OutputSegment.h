@@ -48,6 +48,21 @@ public:
   // Segment header
   std::string header;
 
+  // --pack-data-segments: the segment's final bytes, and the pieces of it
+  // (offset into `packed`, length, encoded header) that are written to the
+  // binary instead of the whole segment. Empty when the segment is written
+  // as-is.
+  struct Piece {
+    uint32_t offset;
+    uint32_t size;
+    std::string header;
+    uint32_t sectionOffset;
+  };
+  std::vector<uint8_t> packed;
+  std::vector<Piece> pieces;
+  // Index of this segment's first piece in the binary's data section.
+  uint32_t binaryIndex = 0;
+
   bool isPassive() const {
     return (initFlags & llvm::wasm::WASM_DATA_SEGMENT_IS_PASSIVE) != 0;
   }

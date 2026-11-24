@@ -503,6 +503,7 @@ static void readConfigs(opt::InputArgList &args) {
   ctx.arg.checkFeatures =
       args.hasFlag(OPT_check_features, OPT_no_check_features, true);
   ctx.arg.compressRelocations = args.hasArg(OPT_compress_relocations);
+  ctx.arg.packDataSegments = args.hasArg(OPT_pack_data_segments);
   ctx.arg.demangle = args.hasFlag(OPT_demangle, OPT_no_demangle, true);
 #ifdef NDEBUG
   ctx.arg.disableVerify = true;

@@ -58,6 +58,9 @@ def color_diagnostics_eq: J<"color-diagnostics=">,
   HelpText<"Use colors in diagnostics (default: auto)">,
   MetaVarName<"[auto,always,never]">;
 
+def pack_data_segments: F<"pack-data-segments">,
+  HelpText<"Omit zero bytes from active data segments, splitting segments at long runs of zeros (memory must not be imported)">;
+
 def compress_relocations: F<"compress-relocations">,
   HelpText<"Compress the relocation targets in the code section.">;
 

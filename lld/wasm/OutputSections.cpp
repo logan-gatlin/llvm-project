@@ -97,11 +97,90 @@ void CodeSection::writeRelocations(raw_ostream &os) const {
     c->writeRelocations(os);
 }
 
+// Whether --pack-data-segments may drop the zero bytes of active segments:
+// the memory must start zeroed (it is defined here, not imported) and the
+// segments must be plain active segments at constant offsets.
+static bool canPackDataSegments() {
+  return ctx.arg.packDataSegments && !ctx.arg.relocatable &&
+         !ctx.arg.emitRelocs && !ctx.isPic && !ctx.arg.memoryImport &&
+         !ctx.arg.isMultithreaded();
+}
+
+static std::string segmentHeader(uint32_t initFlags, uint64_t va,
+                                 uint32_t size) {
+  std::string h;
+  raw_string_ostream os(h);
+  writeUleb128(os, initFlags, "init flags");
+  if (initFlags & WASM_DATA_SEGMENT_HAS_MEMINDEX)
+    writeUleb128(os, 0, "memory index");
+  writeInitExpr(os, intConst(va, ctx.arg.is64.value_or(false)));
+  writeUleb128(os, size, "segment size");
+  return h;
+}
+
+// Render `segment`'s final bytes and split it into pieces that skip runs of
+// zeros longer than the header a new piece costs. The engine limit on the
+// number of data segments is respected by `budget`.
+static void packSegment(OutputSegment *segment, unsigned &budget) {
+  segment->packed.assign(segment->size, 0);
+  for (InputChunk *inputSeg : segment->inputSegments) {
+    inputSeg->outSecOff = inputSeg->outputSegmentOffset;
+    inputSeg->writeTo(segment->packed.data());
+  }
+  const std::vector<uint8_t> &d = segment->packed;
+  auto pieceCost = [&](uint32_t off, uint32_t size) {
+    return segmentHeader(segment->initFlags, segment->startVA + off, size)
+        .size();
+  };
+  uint32_t i = 0, n = d.size();
+  while (i < n && d[i] == 0)
+    ++i;
+  while (n > i && d[n - 1] == 0)
+    --n;
+  uint32_t pieceStart = i;
+  while (i < n) {
+    if (d[i] != 0) {
+      ++i;
+      continue;
+    }
+    uint32_t j = i;
+    while (j < n && d[j] == 0)
+      ++j;
+    // Splitting turns [pieceStart, j..) into two pieces; it pays off when
+    // the zeros are longer than the extra header.
+    if (budget > 1 && j - i > pieceCost(j, n - j) + 1) {
+      segment->pieces.push_back({pieceStart, i - pieceStart, "", 0});
+      --budget;
+      pieceStart = j;
+    }
+    i = j;
+  }
+  if (n > pieceStart)
+    segment->pieces.push_back({pieceStart, n - pieceStart, "", 0});
+  for (OutputSegment::Piece &p : segment->pieces)
+    p.header = segmentHeader(segment->initFlags, segment->startVA + p.offset,
+                             p.size);
+}
+
 void DataSection::finalizeContents() {
   raw_string_ostream os(dataSectionHeader);
-  unsigned segmentCount = llvm::count_if(segments, [](OutputSegment *segment) {
-    return segment->requiredInBinary();
-  });
+  bool pack = canPackDataSegments();
+  if (pack) {
+    // V8 accepts at most 100000 data segments.
+    unsigned budget = 100000 - llvm::count_if(segments, [](OutputSegment *s) {
+                        return s->requiredInBinary();
+                      });
+    for (OutputSegment *segment : segments)
+      if (segment->requiredInBinary() && segment->isActive())
+        packSegment(segment, budget);
+  }
+  unsigned segmentCount = 0;
+  for (OutputSegment *segment : segments) {
+    if (!segment->requiredInBinary())
+      continue;
+    segment->binaryIndex = segmentCount;
+    segmentCount += segment->packed.empty() ? 1 : segment->pieces.size();
+  }
 #ifndef NDEBUG
   unsigned activeCount = llvm::count_if(segments, [](OutputSegment *segment) {
     return segment->requiredInBinary() && segment->isActive();
@@ -111,13 +190,23 @@ void DataSection::finalizeContents() {
   assert((!ctx.isPic || ctx.arg.extendedConst || activeCount <= 1) &&
          "output segments should have been combined by now");
 
-  writeUleb128(os, segmentCount, "data segment count");
+  writeUleb128(os, segmentCount, "data count");
   bodySize = dataSectionHeader.size();
   bool is64 = ctx.arg.is64.value_or(false);
 
   for (OutputSegment *segment : segments) {
     if (!segment->requiredInBinary())
       continue;
+    if (!segment->packed.empty()) {
+      for (OutputSegment::Piece &p : segment->pieces) {
+        p.sectionOffset = bodySize;
+        bodySize += p.header.size() + p.size;
+      }
+      log("Data segment: size=" + Twine(segment->size) + ", startVA=" +
+          Twine::utohexstr(segment->startVA) + ", name=" + segment->name +
+          ", packed into " + Twine(segment->pieces.size()) + " pieces");
+      continue;
+    }
     raw_string_ostream os(segment->header);
     writeUleb128(os, segment->initFlags, "init flags");
     if (segment->initFlags & WASM_DATA_SEGMENT_HAS_MEMINDEX)
@@ -181,6 +270,14 @@ void DataSection::writeTo(uint8_t *buf) {
   for (const OutputSegment *segment : segments) {
     if (!segment->requiredInBinary())
       continue;
+    if (!segment->packed.empty()) {
+      for (const OutputSegment::Piece &p : segment->pieces) {
+        uint8_t *at = buf + p.sectionOffset;
+        memcpy(at, p.header.data(), p.header.size());
+        memcpy(at + p.header.size(), segment->packed.data() + p.offset, p.size);
+      }
+      continue;
+    }
     // Write data segment header
     uint8_t *segStart = buf + segment->sectionOffset;
     memcpy(segStart, segment->header.data(), segment->header.size());
@@ -190,7 +287,6 @@ void DataSection::writeTo(uint8_t *buf) {
       chunk->writeTo(buf);
   }
 }
-
 uint32_t DataSection::getNumRelocations() const {
   uint32_t count = 0;
   for (const OutputSegment *seg : segments)

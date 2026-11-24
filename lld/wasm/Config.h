@@ -57,6 +57,7 @@ struct Config {
   bool bsymbolic;
   bool checkFeatures;
   bool compressRelocations;
+  bool packDataSegments;
   bool demangle;
   bool disableVerify;
   bool emitRelocs;
